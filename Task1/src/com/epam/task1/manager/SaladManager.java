@@ -14,10 +14,6 @@ public class SaladManager implements Manageable {
         createDummySalad();
     }
 
-    public SaladManager(List<Vegetable> vegetables) {
-        this.vegetables = vegetables;
-    }
-
     private void createDummySalad() {
         vegetables.add(new Carrot());
         vegetables.add(new Garlic());
@@ -51,5 +47,9 @@ public class SaladManager implements Manageable {
 
     public List<Vegetable> getVegetables() {
         return vegetables;
+    }
+
+    public void setVegetables(List<Vegetable> vegetables) {
+        this.vegetables = vegetables;
     }
 }

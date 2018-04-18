@@ -5,7 +5,7 @@ import com.epam.task1.manager.SaladManager;
 import java.io.IOException;
 
 public class Chef {
-    public static void main(String[] args) throws IOException {
-        Initializer initializer = new Initializer(new SaladManager());
+    public static void main(String[] args) {
+        Controller controller = new Controller(new SaladManager());
     }
 }

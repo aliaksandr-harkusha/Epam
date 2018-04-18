@@ -1,44 +1,49 @@
 package com.epam.task1.main;
 
 import com.epam.task1.manager.SaladManager;
-import com.epam.task1.model.*;
+import com.epam.task1.model.Vegetable;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Initializer {
+public class Controller {
     private static final String MENU =
             "---------------------\n" +
                     "1 - Create salad\n" +
                     "2 - Count calorific\n" +
                     "3 - Sort by weight\n" +
-                    "4 - Find by range\n" +
+                    "4 - Find by calorific\n" +
                     "5 - Quit\n" +
                     "---------------------\n\n" +
                     "> ";
 
     private SaladManager manager;
 
-    public Initializer(SaladManager manager) throws IOException {
+    public Controller(SaladManager manager) {
         this.manager = manager;
         start();
     }
 
-    private void start() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String input;
+    private void start() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String input;
+            while (true) {
+                System.out.print(MENU);
+                input = reader.readLine();
+                if (input.equals("5")) break;
+                handleInput(input);
+            }
+        } catch (IOException e) {
 
-        while (true) {
-            System.out.print(MENU);
-            input = reader.readLine();
-            if (input.equals("5")) break;
-            askUser(input);
         }
     }
 
-    private void askUser(String input) {
+    private void handleInput(String input) {
         switch (input) {
             case "1":
                 createSalad();
@@ -59,21 +64,18 @@ public class Initializer {
     }
 
     private void createSalad() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("parameters.txt"));
-
+        try (BufferedReader reader = new BufferedReader(new FileReader("parameters.txt"))) {
             int countOfVegetables = 5;
             for (int i = 0; i < countOfVegetables; i++) {
-                addToSalad(reader.readLine(), manager.getVegetables().get(i));
+                initializeVegetable(manager.getVegetables().get(i), reader.readLine());
             }
-
             printSalad();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void addToSalad(String line, Vegetable vegetable) {
+    private void initializeVegetable(Vegetable vegetable, String line) {
         int countOfParameters = 2;
         double[] parameters = new double[countOfParameters];
 
@@ -104,20 +106,18 @@ public class Initializer {
 
     private void sort() {
         manager.sort();
-        System.out.println(Arrays.toString(manager.getVegetables().toArray()));
-        System.out.println();
+        printSalad();
     }
 
     private void find() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        try {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.print("begin: ");
             String begin = reader.readLine();
+            int beginValue = (int) Double.parseDouble(begin);
             System.out.print("end: ");
             String end = reader.readLine();
-            int beginIndex = (int) Double.parseDouble(begin);
-            int endIndex = (int) Double.parseDouble(end);
-            System.out.println(Arrays.toString(manager.find(beginIndex, endIndex).toArray()));
+            int endValue = (int) Double.parseDouble(end);
+            System.out.println(Arrays.toString(manager.find(beginValue, endValue).toArray()));
             System.out.println();
         } catch (Exception e) {
             System.out.println("Incorrect input!");
