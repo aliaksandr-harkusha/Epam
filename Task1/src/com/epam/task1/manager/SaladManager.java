@@ -45,11 +45,17 @@ public class SaladManager implements Manageable {
         return result;
     }
 
-    public List<Vegetable> getVegetables() {
-        return vegetables;
+    public Vegetable getVegetable(int index) {
+        return vegetables.get(index);
     }
 
-    public void setVegetables(List<Vegetable> vegetables) {
-        this.vegetables = vegetables;
+    public int getVegetablesCount() {
+        return vegetables.size();
+    }
+
+    public void printVegetables() {
+        for (Vegetable vegetable : vegetables) {
+            System.out.println(vegetable);
+        }
     }
 }

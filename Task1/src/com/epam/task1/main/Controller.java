@@ -2,6 +2,7 @@ package com.epam.task1.main;
 
 import com.epam.task1.manager.SaladManager;
 import com.epam.task1.model.Vegetable;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,30 +13,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
-    private static final String MENU =
-            "---------------------\n" +
-                    "1 - Create salad\n" +
-                    "2 - Count calorific\n" +
-                    "3 - Sort by weight\n" +
-                    "4 - Find by calorific\n" +
-                    "5 - Quit\n" +
-                    "---------------------\n\n" +
-                    "> ";
-
+    private StringBuilder MENU;
     private SaladManager manager;
 
     public Controller(SaladManager manager) {
+        initializeMenu();
         this.manager = manager;
-        start();
     }
 
-    private void start() {
+    private void initializeMenu() {
+        MENU = new StringBuilder();
+        MENU.append("---------------------\n")
+                .append("1 - Create salad\n")
+                .append("2 - Count calorific\n")
+                .append("3 - Sort by weight\n")
+                .append("4 - Find by calorific\n")
+                .append("5 - Quit\n")
+                .append("---------------------\n\n")
+                .append("> ");
+    }
+
+    public void start() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input;
             while (true) {
                 System.out.print(MENU);
                 input = reader.readLine();
-                if (input.equals("5")) break;
+                if (input.equals(Modes.QUIT)) break;
                 handleInput(input);
             }
         } catch (IOException e) {
@@ -45,16 +49,16 @@ public class Controller {
 
     private void handleInput(String input) {
         switch (input) {
-            case "1":
+            case Modes.CREATE:
                 createSalad();
                 break;
-            case "2":
+            case Modes.COUNT:
                 countCalorific();
                 break;
-            case "3":
+            case Modes.SORT:
                 sort();
                 break;
-            case "4":
+            case Modes.FIND:
                 find();
                 break;
             default:
@@ -65,9 +69,10 @@ public class Controller {
 
     private void createSalad() {
         try (BufferedReader reader = new BufferedReader(new FileReader("parameters.txt"))) {
-            int countOfVegetables = 5;
-            for (int i = 0; i < countOfVegetables; i++) {
-                initializeVegetable(manager.getVegetables().get(i), reader.readLine());
+            int vegetablesCount = manager.getVegetablesCount();
+            for (int i = 0; i < vegetablesCount; i++) {
+                Vegetable current = manager.getVegetable(i);
+                initializeVegetable(current, reader.readLine());
             }
             printSalad();
         } catch (IOException e) {
@@ -76,8 +81,8 @@ public class Controller {
     }
 
     private void initializeVegetable(Vegetable vegetable, String line) {
-        int countOfParameters = 2;
-        double[] parameters = new double[countOfParameters];
+        int parametersCount = 2;
+        double[] parameters = new double[parametersCount];
 
         Pattern p = Pattern.compile("-?\\d+");
         Matcher m = p.matcher(line);
@@ -93,9 +98,7 @@ public class Controller {
 
     private void printSalad() {
         System.out.println("Salad:");
-        for (Vegetable vegetable : manager.getVegetables()) {
-            System.out.println(vegetable);
-        }
+        manager.printVegetables();
         System.out.println();
     }
 

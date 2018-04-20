@@ -10,4 +10,10 @@ public interface Manageable {
     void sort();
 
     List<Vegetable> find(int beginValue, int endValue);
+
+    Vegetable getVegetable(int index);
+
+    int getVegetablesCount();
+
+    void printVegetables();
 }
