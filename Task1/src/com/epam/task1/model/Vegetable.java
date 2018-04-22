@@ -2,7 +2,7 @@ package com.epam.task1.model;
 
 import java.util.Objects;
 
-//если удалиши производные классы - этот класс перестанет быть абстрактным
+//если удалишь производные классы - этот класс не должен быть абстрактным
 public abstract class Vegetable implements Comparable<Vegetable> {
     private double calorific;
     private double weight;
