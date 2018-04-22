@@ -4,6 +4,8 @@ import com.epam.task1.model.Vegetable;
 
 import java.util.List;
 
+//переименуй лучше в какой-нибудь SaladService или ISaladManager
+//а то Manageable - не информативное название
 public interface Manageable {
     double countCalorific();
 
