@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//я думаю этот класс избыточен
+//все общение с пользователем следует выносить в main () метод, 
+//либо в класс, где содержится main () метод
+//а так этот класс больше на view похож, а не на Controller
 public class Controller {
     //все буквы большие - только для констант
     private StringBuilder MENU;
@@ -35,6 +39,7 @@ public class Controller {
     }
 
     public void start() {
+        //вместо этих ридеров - используй лучше Scanner(System.in)
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input;
             while (true) {
@@ -44,7 +49,9 @@ public class Controller {
                 handleInput(input);
             }
         } catch (IOException e) {
-
+          //никогда не оставляй catch-блок - это грубая ошибка
+          //пиши хотя бы что-то типа: System.out.println("IOException has been thrown ... " + e)
+          //  e.printStackTrace(); - не всегда информативен
         }
     }
 
