@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class SaladManager implements Manageable {
+    //лучше создай класс например Salad - в пакете model
+    //который будет инкапсулировать эту коллекцию, с методами get,set,add,getSize - например
+    //и здесь просто создавай объект этого класса
     private List<Vegetable> vegetables;
 
     public SaladManager() {
