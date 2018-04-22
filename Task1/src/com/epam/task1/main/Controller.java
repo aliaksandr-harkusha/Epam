@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
+    //все буквы большие - только для констант
     private StringBuilder MENU;
     private SaladManager manager;
 
